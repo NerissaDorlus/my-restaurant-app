@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 export const SingleRestContext = createContext(null);
 
 export default function App() {
-  const [currentRest, setCurrentSet] = useState();
+  const [currentRest, setCurrentRest] = useState();
   return (
     <SingleRestContext.Provider value={{ currentRest, setCurrentRest }}>
       <NavigationContainer>
