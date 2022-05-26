@@ -1,4 +1,3 @@
-import { NavigationHelpersContext } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import RestaurantCard from "../components/RestaurantCard";
@@ -19,11 +18,11 @@ export default function Home({ navigation }) {
         <ActivityIndicator size="large" color="orange" />
       ) : (
         allRestaurants.map((singleRest) => (
-          <TouchableOpacity key={singleRest.id}>
-            <RestaurantCard
-              onPress={() => navigation.navigat("Details")}
-              singleRest={singleRest}
-            />
+          <TouchableOpacity
+            key={singleRest.id}
+            onPress={() => navigation.navigate("Details")}
+          >
+            <RestaurantCard singleRest={singleRest} />
           </TouchableOpacity>
         ))
       )}
