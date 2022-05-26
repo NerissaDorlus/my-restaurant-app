@@ -1,17 +1,32 @@
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./src/scenes/Home";
+import { NavigationHelpersContext } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
+import RestaurantCard from "../components/RestaurantCard";
 
-const Stack = createNativeStackNavigator();
+export default function Home({ navigation }) {
+  const [allRestaurants, setAllRestaurants] = useState();
 
-export default function App() {
+  useEffect(() => {
+    fetch("https://my-first-firestore-st.web.app/restaurants/")
+      .then((res) => res.json())
+      .then(setAllRestaurants)
+      .catch(console.error);
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <ScrollView>
+      {!allRestaurants ? (
+        <ActivityIndicator size="large" color="orange" />
+      ) : (
+        allRestaurants.map((singleRest) => (
+          <TouchableOpacity key={singleRest.id}>
+            <RestaurantCard
+              onPress={() => navigation.navigat("Details")}
+              singleRest={singleRest}
+            />
+          </TouchableOpacity>
+        ))
+      )}
+    </ScrollView>
   );
 }
